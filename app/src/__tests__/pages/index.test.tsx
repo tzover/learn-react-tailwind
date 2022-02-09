@@ -4,7 +4,8 @@ import Home from '../../pages'
 
 /* 実施するテストケース
 
-- レンダリング
+- Rendering
+  - Header Text (App Name)
 */
 
 jest.mock('next/router', () => ({
@@ -24,10 +25,14 @@ afterEach(() => {
 })
 
 describe('Unit', () => {
-  it('Rendering', () => {
+  it('Rendering header text', () => {
     act(() => {
       render(<Home />)
     })
-    expect(screen.findByText('Welcome to Next.js!')).toBeTruthy()
+    const heading = screen.getByText(/todos/i)
+    expect(heading).toBeInTheDocument()
+
+    const headerBox = screen.getByTestId('header-box')
+    expect(headerBox).toHaveClass('css-xasi6s')
   })
 })
