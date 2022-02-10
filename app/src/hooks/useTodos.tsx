@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { checkTodo } from '../libs/checkTodo'
-import { TodoIF } from '../models/Todos'
 import { getDateTime } from '../libs/getDateTime'
 import { v4 } from 'uuid'
+import { useRecoilState } from 'recoil'
+import { todosState } from '../contexts/TodosAtom'
 
 const useTodos = () => {
-  const [todos, setTodos] = useState<TodoIF[]>([])
+  const [todos, setTodos] = useRecoilState(todosState)
 
   // registration
   const registrationTodo = useCallback(
@@ -21,7 +22,10 @@ const useTodos = () => {
       const { dateTime } = getDateTime()
 
       // set Todos
-      setTodos([...todos, { id: id, date: dateTime, todo: newTodo }])
+      setTodos([
+        ...todos,
+        { id: id, date: dateTime, todo: newTodo, complete: false },
+      ])
     },
     [todos],
   )
@@ -29,23 +33,67 @@ const useTodos = () => {
   // delete
   const deleteTodo = useCallback(
     (id: number): void => {
-      console.log(id)
-      console.log(todos)
       const newTodos = todos.filter((_, idx) => idx !== id)
       setTodos(newTodos)
     },
     [todos],
   )
 
-  // edit
-  const editTodo = useCallback(
+  // delete all
+  const deleteAllTodos = useCallback(() => {
+    // validation
+    if (todos.length === 0) return
+
+    // alert
+    console.log('all Delete todos')
+
+    // initializetion
+    setTodos([])
+  }, [todos])
+
+  // complete
+  const CompleteTodo = useCallback(
     (id: number) => {
-      console.log(String(id))
+      const editTodos = todos.filter((_, idx) => idx === id)
+      console.log(editTodos)
     },
     [todos],
   )
 
-  return { todos, registrationTodo, deleteTodo, editTodo }
+  // edit
+  const editTodo = useCallback(
+    (id: number, target: string) => {
+      // delete target
+      const deleteTarget = todos.filter((_, idx) => idx !== id)
+
+      // Target information
+      const buff = todos.filter((_, idx) => idx === id)
+      const editTarget = buff[0]
+
+      // Recreate
+      const newArray = [
+        {
+          id: editTarget.id,
+          date: editTarget.date,
+          todo: target,
+          complete: editTarget.complete,
+        },
+        ...deleteTarget,
+      ]
+
+      // Set state
+      setTodos(newArray.sort((a, b) => (a.date > b.date ? 1 : -1)))
+    },
+    [todos],
+  )
+  return {
+    todos,
+    registrationTodo,
+    deleteTodo,
+    editTodo,
+    deleteAllTodos,
+    CompleteTodo,
+  }
 }
 
 export default useTodos

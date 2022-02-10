@@ -11,7 +11,7 @@ const EditButton = (props: Props) => {
     <button
       type='button'
       className='border-blue-200 hover:shadow-2xl hover:shadow-green-500'
-      onClick={() => editTodo(idx)}
+      onClick={() => editTodo(idx, 'change')}
     >
       Edit
       {/* <EditIcon /> */}
