@@ -11,7 +11,7 @@ const InputTodo = memo((props: Props) => {
   const { registrationTodo } = useTodos()
   return (
     <input
-      className='flex-1 p-5 text-2xl border-2 border-blue-200'
+      className='flex-1 p-3 text-2xl border-2 border-blue-200'
       type='text'
       placeholder='Have you forgotten something about todos?'
       onChange={onChangeInputTodo}

@@ -4,6 +4,7 @@ import { todosHeader } from '../../contexts/AppBasicContext'
 import {
   deleteModalState,
   editTodosState,
+  infoValue,
   isEditState,
   todosState,
 } from '../../contexts/TodosAtom'
@@ -33,6 +34,9 @@ const Todos = () => {
 
   // Complete
   const { completedTodo } = useTodos()
+
+  // information
+  const info = useRecoilValue(infoValue)
 
   const inputDescription = isEditFlug ? 'Edit Todo' : 'New Todo'
 
@@ -73,7 +77,13 @@ const Todos = () => {
       </div>
 
       {/* All reset button */}
-      <div className='mt-10 text-right pr-5'>
+      <div className='flex justify-between items-center mt-5 px-5'>
+        <p className='text-3xl'>
+          You have {info.total} todos / {info.completed} Completed!
+          <span className='ml-5 text-xl underline'>
+            ({((info.completed / info.total) * 100).toFixed(1)} % )
+          </span>
+        </p>
         <ResetButton />
       </div>
       {/* Delete check modal */}

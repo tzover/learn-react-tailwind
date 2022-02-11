@@ -18,7 +18,7 @@ const InputEditTodo = memo((props: Props) => {
 
   return (
     <input
-      className='flex-1 p-5 text-2xl border-2 border-green-200'
+      className='flex-1 p-3 text-2xl border-2 border-green-200'
       type='text'
       placeholder='Have you forgotten something about todos?'
       onChange={(e) => setInputEditTodo(e.target.value)}

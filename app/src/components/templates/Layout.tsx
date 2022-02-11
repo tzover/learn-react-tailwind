@@ -13,7 +13,7 @@ const Layout = (props: Props) => {
   return (
     <>
       <Header pageTitle={pageTitle} appName={appName} />
-      <div className='px-10 py-14'>{children}</div>
+      <div className='px-10 py-8'>{children}</div>
       <Footer />
     </>
   )
