@@ -32,7 +32,7 @@ export const editTodosTextState = atom<string>({
   default: '',
 })
 
-export const isCompleteState = atom<boolean>({
+export const isCompleteState = atom<boolean | undefined>({
   key: 'isComplete',
   default: false,
 })

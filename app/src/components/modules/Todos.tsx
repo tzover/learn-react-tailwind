@@ -5,6 +5,7 @@ import {
   deleteModalState,
   editTodosState,
   infoValue,
+  isCompleteState,
   isEditState,
   todosState,
 } from '../../contexts/TodosAtom'
@@ -19,6 +20,7 @@ import RegistrationButton from '../atoms/RegistrationButton'
 import InputEditTodo from '../atoms/InputEditTodo'
 import EditRegistrationButton from '../atoms/EditRegistrationButton'
 import useTodos from '../../hooks/useTodos'
+import usePageNation from '../../hooks/usePageNation'
 
 const Todos = () => {
   const todos = useRecoilValue(todosState)
@@ -37,6 +39,19 @@ const Todos = () => {
 
   // information
   const info = useRecoilValue(infoValue)
+
+  // PageNation
+  const {
+    pageIdx,
+    pageShowNum,
+    pageSliceIdx,
+    newsSliceIdx,
+    newsShowNum,
+    pageShowArray,
+    prevPage,
+    nextPage,
+    choicePage,
+  } = usePageNation(todos)
 
   const inputDescription = isEditFlug ? 'Edit Todo' : 'New Todo'
 
@@ -106,45 +121,101 @@ const Todos = () => {
           {/* Table body */}
           <div className='border-y-2 border-gray-300'>
             {todos.length ? (
-              todos.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className={`flex justify-between items-center px-3 my-3 ${
-                    idx % 2 !== 0 && 'bg-blue-100'
-                  }`}
-                >
-                  {/* Date */}
-                  <div className='flex items-center'>
-                    <input
-                      type='checkbox'
-                      className='accent-green-300 scale-150 hover:accent-green-500'
-                      onChange={(e) => completedTodo(item.id, e.target.checked)}
-                      value={item.id}
-                    />
-                    <p className='pl-3'>{item.date}</p>
+              todos
+                .slice(
+                  newsSliceIdx === 0 ? 0 : newsSliceIdx * newsShowNum,
+                  newsSliceIdx * newsShowNum + newsShowNum,
+                )
+                .map((item, idx) => (
+                  <div
+                    key={item.id}
+                    className={`flex justify-between items-center px-3 my-3 ${
+                      idx % 2 !== 0 && 'bg-blue-100'
+                    }`}
+                  >
+                    {/* Date */}
+                    <div className='flex items-center'>
+                      <input
+                        type='checkbox'
+                        className='accent-green-300 scale-150 hover:accent-green-500'
+                        onChange={(e) =>
+                          completedTodo(item.id, e.target.checked)
+                        }
+                        defaultChecked={item.complete}
+                      />
+                      <p className='pl-3'>{item.date}</p>
+                    </div>
+                    {/* Todo */}
+                    <div>
+                      <p
+                        className={`text-xl ${
+                          item.complete && 'line-through text-green-500'
+                        }`}
+                      >
+                        {item.todo}
+                      </p>
+                    </div>
+                    {/* Edit and Delete */}
+                    <div className='flex justify-end items-center'>
+                      <EditFlugButton idx={idx} />
+                      <p className='text-xl mx-5'>/</p>
+                      <DeleteButton idx={idx} />
+                    </div>
                   </div>
-                  {/* Todo */}
-                  <div>
-                    <p
-                      className={`text-xl ${
-                        item.complete && 'line-through text-green-500'
-                      }`}
-                    >
-                      {item.todo}
-                    </p>
-                  </div>
-                  {/* Edit and Delete */}
-                  <div className='flex justify-end items-center'>
-                    <EditFlugButton idx={idx} />
-                    <p className='text-xl mx-5'>/</p>
-                    <DeleteButton idx={idx} />
-                  </div>
-                </div>
-              ))
+                ))
             ) : (
               <div className='p-5 text-center font-bold'>No todos</div>
             )}
           </div>
+          {/* Pagenation */}
+          <nav aria-label='Page navigation' className='mt-5 mb-16'>
+            <ul className='flex justify-center'>
+              <li>
+                <button
+                  className='h-10 px-5 transition-colors duration-150 rounded-l-lg focus:shadow-outline hover:bg-pink-200'
+                  onClick={() => prevPage(pageIdx)}
+                >
+                  <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                    <path
+                      d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                      fillRule='evenodd'
+                    ></path>
+                  </svg>
+                </button>
+              </li>
+              {pageShowArray
+                .slice(
+                  pageSliceIdx === 0 ? 0 : pageSliceIdx,
+                  pageSliceIdx + pageShowNum,
+                )
+                .map((item) => (
+                  <li key={item}>
+                    <button
+                      className='h-10 px-3 transition-colors duration-150 focus:shadow-outline hover:bg-pink-200 md:px-5'
+                      onClick={() => choicePage(item)}
+                    >
+                      {item}
+                    </button>
+                  </li>
+                ))}
+
+              <li>
+                <button
+                  className='h-10 px-5 transition-colors duration-150 rounded-r-lg focus:shadow-outline hover:bg-pink-200'
+                  onClick={() => nextPage(pageIdx)}
+                >
+                  <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                    <path
+                      d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                      clipRule='evenodd'
+                      fillRule='evenodd'
+                    ></path>
+                  </svg>
+                </button>
+              </li>
+            </ul>
+          </nav>
           {/* Table description */}
           <div className='p-2'>
             <p className='text-center text-gray-500'>{`All good things must come to an end`}</p>
