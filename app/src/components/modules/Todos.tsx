@@ -57,11 +57,11 @@ const Todos = () => {
 
   useEffect(() => {
     initializeInput()
-  }, [todos])
+  }, [todos, pageIdx])
 
   useEffect(() => {
     setInputEditTodo(editTodo[0].todo)
-  }, [editTodo])
+  }, [editTodo, pageIdx])
 
   return (
     <>
@@ -168,7 +168,7 @@ const Todos = () => {
             )}
           </div>
           {/* Pagenation */}
-          <nav aria-label='Page navigation' className='mt-5 mb-16'>
+          <nav aria-label='Page navigation' className='mt-5'>
             <ul className='flex justify-center'>
               <li>
                 <button
