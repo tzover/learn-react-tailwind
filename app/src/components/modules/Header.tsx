@@ -13,7 +13,7 @@ const Header = (props: Props) => {
         <title>{pageTitle}</title>
       </Head>
       {/* Header */}
-      <div className='flex items-center bg-blue-200 shadow-2xl'>
+      <div className={`flex items-center bg-blue-200 shadow-2xl`}>
         <div className='p-3'>
           <p className='text-2xl font-extrabold bg-clip-text text-green-700'>
             {appName} Single Page Application

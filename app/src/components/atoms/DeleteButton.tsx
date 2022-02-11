@@ -1,23 +1,24 @@
+import Image from 'next/image'
+import { memo } from 'react'
 import useTodos from '../../hooks/useTodos'
 
 interface Props {
   idx: number
 }
 
-const DeleteButton = (props: Props) => {
+const DeleteButton = memo((props: Props) => {
   const { idx } = props
   const { deleteTodo } = useTodos()
 
   return (
     <button
       type='button'
-      className='border-blue-200 hover:shadow-2xl hover:shadow-red-500'
+      className='p-2 rounded-3xl hover:bg-red-500 hover:scale-125'
       onClick={() => deleteTodo(idx)}
     >
-      Delete
-      {/* <DeleteIcon /> */}
+      <Image src={'/delete.svg'} alt='Delete' width={25} height={25} />
     </button>
   )
-}
+})
 
 export default DeleteButton

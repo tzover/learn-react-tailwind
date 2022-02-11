@@ -1,77 +1,94 @@
 import { useEffect, useState } from 'react'
-import { fakeTodoHeader } from '../../contexts/tests/fakeTodos'
+import { useRecoilValue } from 'recoil'
+import { todosHeader } from '../../contexts/AppBasicContext'
+import {
+  deleteModalState,
+  editTodosState,
+  isEditState,
+  todosState,
+} from '../../contexts/TodosAtom'
 import useInputTodo from '../../hooks/useInputTodo'
-import useTodos from '../../hooks/useTodos'
 import DeleteButton from '../atoms/DeleteButton'
-import EditButton from '../atoms/EditButton'
+import DeleteModal from './DeleteModal'
+import EditFlugButton from '../atoms/EditFlugButton'
+import InputDescription from '../atoms/InputDescription'
+import ResetButton from '../atoms/ResetButton'
+import InputTodo from '../atoms/InputTodo'
+import RegistrationButton from '../atoms/RegistrationButton'
+import InputEditTodo from '../atoms/InputEditTodo'
+import EditRegistrationButton from '../atoms/EditRegistrationButton'
+import useTodos from '../../hooks/useTodos'
 
 const Todos = () => {
+  const todos = useRecoilValue(todosState)
   const { inputTodo, onChangeInputTodo, initializeInput } = useInputTodo()
-  const { todos, registrationTodo, deleteAllTodos } = useTodos()
-  const [isComplete, setIsComplete] = useState<boolean>(false)
-  const [isEditFlug, setIsEditFlug] = useState<boolean>(false)
 
-  const msg = isEditFlug ? 'Edit Todo' : 'New Todo'
+  // Edit
+  const isEditFlug = useRecoilValue(isEditState)
+  const editTodo = useRecoilValue(editTodosState)
+  const [inputEditTodo, setInputEditTodo] = useState(editTodo[0].todo)
+
+  // Delete
+  const isDeleteModalOpen = useRecoilValue(deleteModalState)
+
+  // Complete
+  const { completedTodo } = useTodos()
+
+  const inputDescription = isEditFlug ? 'Edit Todo' : 'New Todo'
 
   useEffect(() => {
     initializeInput()
   }, [todos])
 
+  useEffect(() => {
+    setInputEditTodo(editTodo[0].todo)
+  }, [editTodo])
+
   return (
     <>
       {/* Input description */}
-      <div>
-        <p
-          className={`text-base pl-1 pb-1 bg-clip-text text-${
-            isEditFlug ? 'green' : 'blue'
-          }-500`}
-        >
-          {msg}
-        </p>
+      <div className='pl-2 pb-2'>
+        <InputDescription isEdit={isEditFlug} description={inputDescription} />
       </div>
+
       {/* New todos -> input area */}
       <div className='flex w-full justify-center'>
-        <input
-          className='flex-1 p-5 text-2xl border-2 border-blue-200'
-          type='text'
-          placeholder='Have you forgotten something about todos?'
-          onChange={onChangeInputTodo}
-          value={inputTodo}
-          onKeyPress={(e) => e.key === 'Enter' && registrationTodo(inputTodo)}
-        />
-        <button
-          className='text-xl ml-5 px-10 rounded-md cursor-pointer bg-blue-200 hover:bg-blue-300 hover:font-bold'
-          onClick={() => registrationTodo(inputTodo)}
-        >
-          Go
-        </button>
+        {isEditFlug ? (
+          <>
+            <InputEditTodo
+              inputEditTodo={inputEditTodo}
+              setInputEditTodo={setInputEditTodo}
+            />
+            <EditRegistrationButton inputTodo={inputEditTodo} />
+          </>
+        ) : (
+          <>
+            <InputTodo
+              inputTodo={inputTodo}
+              onChangeInputTodo={onChangeInputTodo}
+            />
+            <RegistrationButton inputTodo={inputTodo} />
+          </>
+        )}
       </div>
 
       {/* All reset button */}
       <div className='mt-10 text-right pr-5'>
-        <button
-          className={`p-3 rounded-xl ${
-            todos.length === 0
-              ? 'bg-gray-400'
-              : 'bg-yellow-200 hover:bg-yellow-300 hover:font-bold'
-          }`}
-          disabled={todos.length === 0 && true}
-          onClick={() => deleteAllTodos()}
-        >
-          All Reset
-        </button>
+        <ResetButton />
       </div>
+      {/* Delete check modal */}
+      <DeleteModal isDeleteModalOpen={isDeleteModalOpen} />
 
-      {/* History todos */}
+      {/* Todos */}
       <div className='px-5 pb-5'>
         <div className='w-full'>
           {/* table header */}
           <div>
             <div className='flex justify-between py-3'>
-              {fakeTodoHeader.map((item) => (
-                <div key={item} className='text-2xl'>
+              {todosHeader.map((item) => (
+                <p key={item} className='text-2xl'>
                   {item}
-                </div>
+                </p>
               ))}
             </div>
           </div>
@@ -82,29 +99,35 @@ const Todos = () => {
               todos.map((item, idx) => (
                 <div
                   key={item.id}
-                  className={`flex justify-between p-3 my-3 ${
+                  className={`flex justify-between items-center px-3 my-3 ${
                     idx % 2 !== 0 && 'bg-blue-100'
                   }`}
                 >
-                  <div>
-                    <div className='flex items-center'>
-                      <input
-                        type='checkbox'
-                        className='accent-green-300 scale-150 hover:accent-green-500'
-                        onChange={(e) => setIsComplete(e.target.checked)}
-                        value={item.id}
-                      />
-                      <p className='pl-3'>{item.date}</p>
-                    </div>
+                  {/* Date */}
+                  <div className='flex items-center'>
+                    <input
+                      type='checkbox'
+                      className='accent-green-300 scale-150 hover:accent-green-500'
+                      onChange={(e) => completedTodo(item.id, e.target.checked)}
+                      value={item.id}
+                    />
+                    <p className='pl-3'>{item.date}</p>
                   </div>
+                  {/* Todo */}
                   <div>
-                    <p className='text-xl'>{item.todo}</p>
+                    <p
+                      className={`text-xl ${
+                        item.complete && 'line-through text-green-500'
+                      }`}
+                    >
+                      {item.todo}
+                    </p>
                   </div>
-                  <div>
-                    <div className='flex justify-end items-center'>
-                      <EditButton idx={idx} />
-                      <DeleteButton idx={idx} />
-                    </div>
+                  {/* Edit and Delete */}
+                  <div className='flex justify-end items-center'>
+                    <EditFlugButton idx={idx} />
+                    <p className='text-xl mx-5'>/</p>
+                    <DeleteButton idx={idx} />
                   </div>
                 </div>
               ))
@@ -113,8 +136,8 @@ const Todos = () => {
             )}
           </div>
           {/* Table description */}
-          <div className=''>
-            <p className='p-2 text-center text-gray-500'>{`All good things must come to an end`}</p>
+          <div className='p-2'>
+            <p className='text-center text-gray-500'>{`All good things must come to an end`}</p>
           </div>
         </div>
       </div>

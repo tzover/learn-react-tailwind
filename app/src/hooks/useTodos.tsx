@@ -2,11 +2,23 @@ import { useCallback } from 'react'
 import { checkTodo } from '../libs/checkTodo'
 import { getDateTime } from '../libs/getDateTime'
 import { v4 } from 'uuid'
-import { useRecoilState } from 'recoil'
-import { todosState } from '../contexts/TodosAtom'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import {
+  deleteModalState,
+  todosState,
+  isEditState,
+  editTodosState,
+  isCompleteState,
+} from '../contexts/TodosAtom'
+import { TodoIF } from '../models/Todos'
 
 const useTodos = () => {
-  const [todos, setTodos] = useRecoilState(todosState)
+  const todos = useRecoilValue(todosState)
+  const setTodos = useSetRecoilState(todosState)
+  const setIsDeleteModalOpen = useSetRecoilState(deleteModalState)
+  const setEditFlug = useSetRecoilState(isEditState)
+  const setEditState = useSetRecoilState(editTodosState)
+  const [isComplete, setIsComplete] = useRecoilState(isCompleteState)
 
   // registration
   const registrationTodo = useCallback(
@@ -44,30 +56,47 @@ const useTodos = () => {
     // validation
     if (todos.length === 0) return
 
-    // alert
-    console.log('all Delete todos')
-
-    // initializetion
-    setTodos([])
+    // check alert
+    setIsDeleteModalOpen(true)
   }, [todos])
 
   // complete
-  const CompleteTodo = useCallback(
+  const completedTodo = useCallback(
+    (id: string, isComplete: boolean) => {
+      setTodos(
+        todos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              complete: !todo.complete,
+            }
+          }
+          return todo
+        }),
+      )
+      setIsComplete(isComplete)
+      return isComplete
+    },
+    [todos],
+  )
+
+  // editFlug
+  const editFlug = useCallback(
     (id: number) => {
-      const editTodos = todos.filter((_, idx) => idx === id)
-      console.log(editTodos)
+      setEditFlug(true)
+      setEditState([todos[id]])
     },
     [todos],
   )
 
   // edit
-  const editTodo = useCallback(
-    (id: number, target: string) => {
+  const editRegistrationTodo = useCallback(
+    (data: TodoIF[], target: string) => {
       // delete target
-      const deleteTarget = todos.filter((_, idx) => idx !== id)
+      const deletedTarget = todos.filter((item) => item.id !== data[0].id)
 
       // Target information
-      const buff = todos.filter((_, idx) => idx === id)
+      const buff = todos.filter((item) => item.id === data[0].id)
       const editTarget = buff[0]
 
       // Recreate
@@ -78,11 +107,14 @@ const useTodos = () => {
           todo: target,
           complete: editTarget.complete,
         },
-        ...deleteTarget,
+        ...deletedTarget,
       ]
 
       // Set state
       setTodos(newArray.sort((a, b) => (a.date > b.date ? 1 : -1)))
+
+      // Reset flug
+      setEditFlug(false)
     },
     [todos],
   )
@@ -90,9 +122,10 @@ const useTodos = () => {
     todos,
     registrationTodo,
     deleteTodo,
-    editTodo,
+    editFlug,
+    editRegistrationTodo,
     deleteAllTodos,
-    CompleteTodo,
+    completedTodo,
   }
 }
 
