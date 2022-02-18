@@ -1,4 +1,5 @@
-import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react'
+/* eslint-disable react/display-name */
+import { Dispatch, memo, SetStateAction } from 'react'
 import { useRecoilValue } from 'recoil'
 import { editTodosState } from '../../contexts/TodosAtom'
 import useTodos from '../../hooks/useTodos'

@@ -5,7 +5,6 @@ import {
   deleteModalState,
   editTodosState,
   infoValue,
-  isCompleteState,
   isEditState,
   todosState,
 } from '../../contexts/TodosAtom'
@@ -21,6 +20,7 @@ import InputEditTodo from '../atoms/InputEditTodo'
 import EditRegistrationButton from '../atoms/EditRegistrationButton'
 import useTodos from '../../hooks/useTodos'
 import usePageNation from '../../hooks/usePageNation'
+import { pageState } from '../../contexts/TodosPageAtom'
 
 const Todos = () => {
   const todos = useRecoilValue(todosState)
@@ -41,12 +41,12 @@ const Todos = () => {
   const info = useRecoilValue(infoValue)
 
   // PageNation
+  const pageIdx = useRecoilValue(pageState)
   const {
-    pageIdx,
     pageShowNum,
     pageSliceIdx,
-    newsSliceIdx,
-    newsShowNum,
+    sliceIdx,
+    showNum,
     pageShowArray,
     prevPage,
     nextPage,
@@ -123,8 +123,8 @@ const Todos = () => {
             {todos.length ? (
               todos
                 .slice(
-                  newsSliceIdx === 0 ? 0 : newsSliceIdx * newsShowNum,
-                  newsSliceIdx * newsShowNum + newsShowNum,
+                  sliceIdx === 0 ? 0 : sliceIdx * showNum,
+                  sliceIdx * showNum + showNum,
                 )
                 .map((item, idx) => (
                   <div

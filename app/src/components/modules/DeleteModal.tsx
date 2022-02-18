@@ -1,6 +1,11 @@
+/* eslint-disable react/display-name */
 import { memo, useCallback } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { deleteModalState, todosState } from '../../contexts/TodosAtom'
+import {
+  deleteModalState,
+  isEditState,
+  todosState,
+} from '../../contexts/TodosAtom'
 
 interface Props {
   isDeleteModalOpen: boolean
@@ -9,6 +14,7 @@ interface Props {
 const DeleteModal = memo((props: Props) => {
   const { isDeleteModalOpen } = props
   const setTodos = useSetRecoilState(todosState)
+  const setEditState = useSetRecoilState(isEditState)
   const setIsDeleteModalOpen = useSetRecoilState(deleteModalState)
 
   const renderModal = useCallback(() => {
@@ -34,6 +40,7 @@ const DeleteModal = memo((props: Props) => {
                   onClick={() => {
                     // initialization
                     setTodos([])
+                    setEditState(false)
                     setIsDeleteModalOpen(false)
                   }}
                 >

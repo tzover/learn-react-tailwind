@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { checkTodo } from '../libs/checkTodo'
 import { getDateTime } from '../libs/getDateTime'
 import { v4 } from 'uuid'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import {
   deleteModalState,
   todosState,
@@ -18,7 +18,7 @@ const useTodos = () => {
   const setIsDeleteModalOpen = useSetRecoilState(deleteModalState)
   const setEditFlug = useSetRecoilState(isEditState)
   const setEditState = useSetRecoilState(editTodosState)
-  const [isComplete, setIsComplete] = useRecoilState(isCompleteState)
+  const setIsComplete = useSetRecoilState(isCompleteState)
 
   // registration
   const registrationTodo = useCallback(
@@ -62,7 +62,7 @@ const useTodos = () => {
 
   // complete
   const completedTodo = useCallback(
-    (id: string, isComplete: boolean) => {
+    (id: string, isCompleteFlug: boolean) => {
       setTodos(
         todos.map((todo) => {
           if (todo.id === id) {
@@ -74,8 +74,8 @@ const useTodos = () => {
           return todo
         }),
       )
-      setIsComplete(isComplete)
-      return isComplete
+      setIsComplete(isCompleteFlug)
+      return isCompleteFlug
     },
     [todos],
   )
