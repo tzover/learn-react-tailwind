@@ -1,20 +1,67 @@
 version: '3.3'
 services:
-  frontend:
-    image: ${IMAGE_BASENAME}/ui:${TAG}
-    container_name: ${CONTAINER_BASENAME}-ui
+  tailwind:
+    image: ${IMAGE_BASENAME}/tailwind:${TAG}
+    container_name: ${CONTAINER_BASENAME}-tailwind
     build:
-      context: .
+      context: ./tailwind
       dockerfile: Dockerfile
     volumes:
-      - ./app:/home/node/app
-      - ./docs/:/home/node/app/docs
-      - frontend-volume:/home/node/app/node_modules
+      - ./tailwind/app:/home/node/app
+      - tailwind-volume:/home/node/app/node_modules
     ports:
-      - ${FRONTEND_PORT}:3000
+      - ${TAILWIND_PORT}:3000
     tty: true
     restart: always
+  styled:
+    image: ${IMAGE_BASENAME}/styled:${TAG}
+    container_name: ${CONTAINER_BASENAME}-styled
+    build:
+      context: ./styled-components
+      dockerfile: Dockerfile
+    volumes:
+      - ./styled-components/app:/home/node/app
+      - styled-volume:/home/node/app/node_modules
+    ports:
+      - ${STYLED_PORT}:3000
+    tty: true
+    restart: always
+  chakra:
+    image: ${IMAGE_BASENAME}/chakra:${TAG}
+    container_name: ${CONTAINER_BASENAME}-chakra
+    build:
+      context: ./chakra
+      dockerfile: Dockerfile
+    volumes:
+      - ./chakra/app:/home/node/app
+      - chakra-volume:/home/node/app/node_modules
+    ports:
+      - ${CHAKRA_PORT}:3000
+    tty: true
+    restart: always
+  # module:
+  #   image: ${IMAGE_BASENAME}/module:${TAG}
+  #   container_name: ${CONTAINER_BASENAME}-module
+  #   build:
+  #     context: ./cssmodule
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./cssmodule/app:/home/node/app
+  #     - module-volume:/home/node/app/node_modules
+  #   ports:
+  #     - ${MODULE_PORT}:3000
+  #   tty: true
+  #   restart: always
 volumes:
-  frontend-volume:
-    name: ${CONTAINER_BASENAME}-volume
+  tailwind-volume:
+    name: ${CONTAINER_BASENAME}-tailwind-volume
     driver: local
+  styled-volume:
+    name: ${CONTAINER_BASENAME}-styled-volume
+    driver: local
+  chakra-volume:
+    name: ${CONTAINER_BASENAME}-chakra-volume
+    driver: local
+  # module-volume:
+  #   name: ${CONTAINER_BASENAME}-module-volume
+  #   driver: local
