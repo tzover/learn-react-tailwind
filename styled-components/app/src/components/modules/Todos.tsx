@@ -21,7 +21,130 @@ import EditRegistrationButton from '../atoms/EditRegistrationButton'
 import useTodos from '../../hooks/useTodos'
 import usePageNation from '../../hooks/usePageNation'
 import { pageState } from '../../contexts/TodosPageAtom'
+import styled from 'styled-components'
 
+// interface
+
+// styled
+const InputDescriptionContainer = styled.div`
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+`
+const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
+const ResetButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  p {
+    font-size: xx-large;
+  }
+  span {
+    margin-left: 2rem;
+    font-size: x-large;
+    text-decoration: underline;
+  }
+`
+const TodosContainer = styled.div`
+  padding: 0 2rem 2rem 2rem;
+  .todos-table {
+    width: 100%;
+  }
+  .todos-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    p {
+      font-size: xx-large;
+    }
+  }
+  .todos-body {
+    border-top: 0.2rem solid #eee;
+    border-bottom: 0.2rem solid #eee;
+
+    .body-items-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      margin: 1rem 0;
+      .items-date {
+        display: flex;
+        align-items: center;
+        input {
+          transform: scale(1.5);
+          accent-color: #a1eaa1;
+          &:hover {
+            accent-color: #2cf52c;
+          }
+        }
+        p {
+          padding-left: 1rem;
+        }
+      }
+      .items-todo {
+        p {
+          font-size: x-large;
+        }
+      }
+      .items-edit-and-delete {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        p {
+          font-size: x-large;
+          margin: 0 1rem;
+        }
+      }
+    }
+    .items-none {
+      padding: 1rem;
+      p {
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+  }
+`
+const PagenationContainer = styled.nav`
+  margin-top: 1rem;
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+  }
+  button {
+    height: 2.5rem;
+    padding: 0 1rem;
+    transition-property: color;
+    transition-duration: 150ms;
+    &:hover {
+      background: #f5c8cf;
+    }
+    &:focus {
+      outline: 0.2rem solid #f5c8cf;
+    }
+    svg {
+      width: 1vw;
+      height: 2vh;
+    }
+  }
+`
+const TableDescription = styled.div`
+  padding: 1rem;
+  p {
+    text-align: center;
+    color: #8b8b8b;
+  }
+`
+
+// component
 const Todos = () => {
   const todos = useRecoilValue(todosState)
   const { inputTodo, onChangeInputTodo, initializeInput } = useInputTodo()
@@ -66,12 +189,12 @@ const Todos = () => {
   return (
     <>
       {/* Input description */}
-      <div className='pl-2 pb-2'>
+      <InputDescriptionContainer>
         <InputDescription isEdit={isEditFlug} description={inputDescription} />
-      </div>
+      </InputDescriptionContainer>
 
       {/* New todos -> input area */}
-      <div className='flex w-full justify-center'>
+      <InputContainer>
         {isEditFlug ? (
           <>
             <InputEditTodo
@@ -89,37 +212,33 @@ const Todos = () => {
             <RegistrationButton inputTodo={inputTodo} />
           </>
         )}
-      </div>
+      </InputContainer>
 
       {/* All reset button */}
-      <div className='flex justify-between items-center mt-5 px-5'>
-        <p className='text-3xl'>
+      <ResetButtonContainer>
+        <p>
           You have {info.total} todos / {info.completed} Completed!
-          <span className='ml-5 text-xl underline'>
-            ({((info.completed / info.total) * 100).toFixed(1)} % )
-          </span>
+          <span>({((info.completed / info.total) * 100).toFixed(1)} % )</span>
         </p>
         <ResetButton />
-      </div>
+      </ResetButtonContainer>
       {/* Delete check modal */}
       <DeleteModal isDeleteModalOpen={isDeleteModalOpen} />
 
       {/* Todos */}
-      <div className='px-5 pb-5'>
-        <div className='w-full'>
+      <TodosContainer>
+        <div className='todos-table'>
           {/* table header */}
           <div>
-            <div className='flex justify-between py-3'>
+            <div className='todos-header'>
               {todosHeader.map((item) => (
-                <p key={item} className='text-2xl'>
-                  {item}
-                </p>
+                <p key={item}>{item}</p>
               ))}
             </div>
           </div>
 
           {/* Table body */}
-          <div className='border-y-2 border-gray-300'>
+          <div className='todos-body'>
             {todos.length ? (
               todos
                 .slice(
@@ -129,53 +248,51 @@ const Todos = () => {
                 .map((item, idx) => (
                   <div
                     key={item.id}
-                    className={`flex justify-between items-center px-3 my-3 ${
-                      idx % 2 !== 0 && 'bg-blue-100'
+                    className={`body-items-container ${
+                      idx % 2 !== 0 && 'bg-blue-100' //wwwwwwwwwwwwwwww
                     }`}
                   >
                     {/* Date */}
-                    <div className='flex items-center'>
+                    <div className='items-date'>
                       <input
                         type='checkbox'
-                        className='accent-green-300 scale-150 hover:accent-green-500'
                         onChange={(e) =>
                           completedTodo(item.id, e.target.checked)
                         }
                         defaultChecked={item.complete}
                       />
-                      <p className='pl-3'>{item.date}</p>
+                      <p>{item.date}</p>
                     </div>
                     {/* Todo */}
-                    <div>
+                    <div className='items-todo'>
                       <p
-                        className={`text-xl ${
-                          item.complete && 'line-through text-green-500'
+                        className={` ${
+                          item.complete && 'line-through text-green-500' //wwwwwwwwwwwwwwww
                         }`}
                       >
                         {item.todo}
                       </p>
                     </div>
                     {/* Edit and Delete */}
-                    <div className='flex justify-end items-center'>
+                    <div className='items-edit-and-delete'>
                       <EditFlugButton idx={idx} />
-                      <p className='text-xl mx-5'>/</p>
+                      <p>/</p>
                       <DeleteButton idx={idx} />
                     </div>
                   </div>
                 ))
             ) : (
-              <div className='p-5 text-center font-bold'>No todos</div>
+              <div className='items-none'>
+                <p>No todos</p>
+              </div>
             )}
           </div>
           {/* Pagenation */}
-          <nav aria-label='Page navigation' className='mt-5'>
-            <ul className='flex justify-center'>
+          <PagenationContainer aria-label='Page navigation'>
+            <ul>
               <li>
-                <button
-                  className='h-10 px-5 transition-colors duration-150 rounded-l-lg focus:shadow-outline hover:bg-pink-200'
-                  onClick={() => prevPage(pageIdx)}
-                >
-                  <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                <button onClick={() => prevPage(pageIdx)}>
+                  <svg viewBox='0 0 20 20'>
                     <path
                       d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
                       clipRule='evenodd'
@@ -191,21 +308,13 @@ const Todos = () => {
                 )
                 .map((item) => (
                   <li key={item}>
-                    <button
-                      className='h-10 px-3 transition-colors duration-150 focus:shadow-outline hover:bg-pink-200 md:px-5'
-                      onClick={() => choicePage(item)}
-                    >
-                      {item}
-                    </button>
+                    <button onClick={() => choicePage(item)}>{item}</button>
                   </li>
                 ))}
 
               <li>
-                <button
-                  className='h-10 px-5 transition-colors duration-150 rounded-r-lg focus:shadow-outline hover:bg-pink-200'
-                  onClick={() => nextPage(pageIdx)}
-                >
-                  <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                <button onClick={() => nextPage(pageIdx)}>
+                  <svg viewBox='0 0 20 20'>
                     <path
                       d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
                       clipRule='evenodd'
@@ -215,13 +324,13 @@ const Todos = () => {
                 </button>
               </li>
             </ul>
-          </nav>
+          </PagenationContainer>
           {/* Table description */}
-          <div className='p-2'>
-            <p className='text-center text-gray-500'>{`All good things must come to an end`}</p>
-          </div>
+          <TableDescription>
+            <p>{`All good things must come to an end`}</p>
+          </TableDescription>
         </div>
-      </div>
+      </TodosContainer>
     </>
   )
 }

@@ -1,13 +1,24 @@
 import { Dispatch, memo, SetStateAction } from 'react'
 import { useRecoilValue } from 'recoil'
+import styled from 'styled-components'
 import { editTodosState } from '../../contexts/TodosAtom'
 import useTodos from '../../hooks/useTodos'
 
+// interface
 interface Props {
   inputEditTodo: string
   setInputEditTodo: Dispatch<SetStateAction<string>>
 }
 
+// styled
+const InputStyle = styled.input`
+  flex: 1;
+  padding: 1rem;
+  font-size: xx-large;
+  border: 0.2rem solid #99e69f;
+`
+
+// component
 const InputEditTodo = memo((props: Props) => {
   const { inputEditTodo, setInputEditTodo } = props
   // Edit all todos
@@ -17,8 +28,7 @@ const InputEditTodo = memo((props: Props) => {
   const { editRegistrationTodo } = useTodos()
 
   return (
-    <input
-      className='flex-1 p-3 text-2xl border-2 border-green-200'
+    <InputStyle
       type='text'
       placeholder='Have you forgotten something about todos?'
       onChange={(e) => setInputEditTodo(e.target.value)}

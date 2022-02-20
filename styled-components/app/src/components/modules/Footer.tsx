@@ -1,10 +1,30 @@
+import styled from 'styled-components'
+
+// interface
+
+// styled
+const FooterContainer = styled.footer`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  padding: 0.5rem;
+  border-top: 0.2rem solid #eee;
+
+  p {
+    width: 95%;
+    text-align: right;
+    color: #8b8b8b;
+    opacity: 80%;
+  }
+`
+
+// component
 const Footer = () => {
   return (
-    <div className='fixed bottom-0 w-full bg-white p-1 border-t-2 border-gray-500'>
-      <p className='w-11/12 text-right text-gray-500 opacity-80'>
-        Produced by &copy; yt 2022
-      </p>
-    </div>
+    <FooterContainer>
+      <p>Produced by &copy; yt 2022</p>
+    </FooterContainer>
   )
 }
 
