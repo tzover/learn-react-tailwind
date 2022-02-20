@@ -4,7 +4,7 @@ import Todos from '../components/modules/Todos'
 import Layout from '../components/templates/Layout'
 
 const Home: NextPage = () => {
-  const pageTitle = 'Tailwind CSS'
+  const pageTitle = 'Styled-Components CSS'
   const appName = 'Todos'
   return (
     <Layout pageTitle={pageTitle} appName={appName}>

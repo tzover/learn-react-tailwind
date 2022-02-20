@@ -112,6 +112,14 @@ const TodosContainer = styled.div`
     }
   }
 `
+const TodosBodyContainer = styled.div`
+  background: ${(props) => props.color};
+`
+const TodosText = styled.p`
+  color: ${(props) => props.color};
+  text-decoration: ${(props) => props.className};
+`
+
 const PagenationContainer = styled.nav`
   margin-top: 1rem;
   ul {
@@ -246,11 +254,10 @@ const Todos = () => {
                   sliceIdx * showNum + showNum,
                 )
                 .map((item, idx) => (
-                  <div
+                  <TodosBodyContainer
                     key={item.id}
-                    className={`body-items-container ${
-                      idx % 2 !== 0 && 'bg-blue-100' //wwwwwwwwwwwwwwww
-                    }`}
+                    className={`body-items-container`}
+                    color={`${idx % 2 !== 0 && '#bcd1f5'}`}
                   >
                     {/* Date */}
                     <div className='items-date'>
@@ -265,13 +272,12 @@ const Todos = () => {
                     </div>
                     {/* Todo */}
                     <div className='items-todo'>
-                      <p
-                        className={` ${
-                          item.complete && 'line-through text-green-500' //wwwwwwwwwwwwwwww
-                        }`}
+                      <TodosText
+                        className={`${item.complete && 'line-through'}`}
+                        color={`${item.complete && '#99e69f'}`}
                       >
                         {item.todo}
-                      </p>
+                      </TodosText>
                     </div>
                     {/* Edit and Delete */}
                     <div className='items-edit-and-delete'>
@@ -279,7 +285,7 @@ const Todos = () => {
                       <p>/</p>
                       <DeleteButton idx={idx} />
                     </div>
-                  </div>
+                  </TodosBodyContainer>
                 ))
             ) : (
               <div className='items-none'>
