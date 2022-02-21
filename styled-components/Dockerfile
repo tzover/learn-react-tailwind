@@ -31,4 +31,4 @@ RUN echo "root:root" | chpasswd \
 USER ${USER_NAME}
 
 
-# CMD [ "yarn", "start" ]
+CMD [ "yarn", "start" ]
