@@ -1,0 +1,9 @@
+.delete_button {
+  padding: 0.3rem;
+  border-radius: 1.5rem;
+}
+
+.delete_button:hover {
+  background: #e64a4a;
+  transform: scale(1.25);
+}
