@@ -52,6 +52,8 @@ const Todos = () => {
     completedTodo,
   } = useTodos()
 
+  // Modal
+
   // information
   const info = useRecoilValue(infoValue)
 
