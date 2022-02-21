@@ -1,19 +1,18 @@
-import { memo } from 'react'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import { useRecoilValue } from 'recoil'
-import useTodos from '../../hooks/useTodos'
+import { memo } from 'react'
 import { pageState } from '../../contexts/TodosPageAtom'
-
+import useTodos from '../../hooks/useTodos'
 
 interface Props {
   idx: number
 }
 
-const DeleteButton = memo((props: Props) => {
+const EditFlugButton = memo((props: Props) => {
   const { idx } = props
   const pageIdx = useRecoilValue(pageState)
-  const { deleteTodo } = useTodos()
+  const { editFlug } = useTodos()
 
   const newId = idx + (pageIdx === 1 ? 0 : (pageIdx - 1) * 5)
 
@@ -21,14 +20,14 @@ const DeleteButton = memo((props: Props) => {
     <Button
       colorScheme={'messenger'}
       _hover={{
-        boxShadow: '5px 5px 5px red',
+        boxShadow: '5px 5px 5px green',
       }}
       variant={'outline'}
-      onClick={() => deleteTodo(newId)}
+      onClick={() => editFlug(newId)}
     >
-      <DeleteIcon />
+      <EditIcon />
     </Button>
   )
 })
 
-export default DeleteButton
+export default EditFlugButton

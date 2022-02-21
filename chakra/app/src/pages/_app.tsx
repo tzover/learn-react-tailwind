@@ -6,10 +6,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
       <Head>
-        <title>TZOV SPA</title>
+        <title>Styling Practices</title>
         <meta
           name='description'
-          content='A Single Page Application Produced by TZOVER'
+          content='A Single Page Application Produced by yt'
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>

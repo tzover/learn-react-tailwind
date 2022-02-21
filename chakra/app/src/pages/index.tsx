@@ -4,7 +4,7 @@ import Todos from '../components/modules/Todos'
 import Layout from '../components/templates/Layout'
 
 const Home: NextPage = () => {
-  const pageTitle = 'TZOV SPA'
+  const pageTitle = 'Chakra CSS'
   const appName = 'Todos'
   return (
     <Layout pageTitle={pageTitle} appName={appName}>
@@ -16,3 +16,4 @@ const Home: NextPage = () => {
 }
 
 export default Home
+

@@ -12,7 +12,7 @@ const Footer = () => {
       p={'1'}
     >
       <Text w={'95%'} textAlign={'right'} color={`${color}`} opacity={''}>
-        Produced by &copy; tzover 2022
+      Produced by &copy; yt 2022
       </Text>
     </Stack>
   )
