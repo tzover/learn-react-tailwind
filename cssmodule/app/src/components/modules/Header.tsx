@@ -1,27 +1,11 @@
 import Head from 'next/head'
-import styled from 'styled-components'
+import styles from '../../styles/components/modules/Header.module.css'
 
 // interface
 interface Props {
   pageTitle: string
   appName: string
 }
-
-// styled
-const HeaderContainer = styled.header`
-  display: flex;
-  align-items: center;
-  background: skyblue;
-  box-shadow: 0px 10px 10px -5px #8a8888;
-  div {
-    padding: 1rem;
-  }
-  p {
-    font-size: x-large;
-    font-weight: bold;
-    color: #388538;
-  }
-`
 
 // component
 const Header = (props: Props) => {
@@ -33,11 +17,11 @@ const Header = (props: Props) => {
         <title>{pageTitle}</title>
       </Head>
       {/* Header */}
-      <HeaderContainer>
+      <header className={styles.header}>
         <div>
           <p>{appName} Single Page Application</p>
         </div>
-      </HeaderContainer>
+      </header>
     </>
   )
 }
