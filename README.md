@@ -2,9 +2,7 @@
 
 > TypeScript / Atomic Design
 
-```
-img area
-```
+<img src="./images/logo-dark.svg" alt="Tailwind CSS" width="350" height="70">
 
 [Tailwindcss 公式 URL](https://tailwindcss.com/)
 
