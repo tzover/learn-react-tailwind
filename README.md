@@ -21,7 +21,7 @@ docker-compose up -d
   - [Chakra UI:localhost: localhost:3002](http://localhost:3002)
   - [CSS-modules:localhost: localhost:3003](http://localhost:3003)
 
-- In Container
+- In the container
 
 ```
 docker-compose exec <tailwind | styled | chakra | module> bash
