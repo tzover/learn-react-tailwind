@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import styled from 'styled-components'
+import styles from '../../styles/components/atoms/InputDescription.module.css'
 
 // interface
 interface Props {
@@ -7,19 +7,13 @@ interface Props {
   description: string
 }
 
-// styled
-const Description = styled.p<{ color: string }>`
-  font-size: large;
-  color: ${({ color }) => color};
-`
-
 // component
 const InputDescription = memo((props: Props) => {
   const { isEdit, description } = props
   return (
-    <Description color={`${isEdit ? '#4ae657' : '#8fa9da'}`}>
+    <p className={`${styles.input_msg} ${isEdit && styles.input_msg_color_edit}`}>
       {description}
-    </Description>
+    </p>
   )
 })
 

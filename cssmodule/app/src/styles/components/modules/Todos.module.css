@@ -1,0 +1,141 @@
+.input_description_container {
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+
+.input_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.reset_button_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.history_msg {
+  font-size: xx-large;
+}
+
+.history_msg_span {
+  margin-left: 2rem;
+  font-size: x-large;
+  text-decoration: underline;
+}
+
+.todos_container {
+  padding: 0 2rem 2rem 2rem;
+}
+
+.todos_table {
+  width: 100%;
+}
+.todos_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+.todos_header p {
+  font-size: xx-large;
+}
+
+.todos_body {
+  border-top: 0.2rem solid #eee;
+  border-bottom: 0.2rem solid #eee;
+}
+
+.todos_body_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 1rem 0;
+}
+.todos_body_container_color {
+  background: #bcd1f5;
+}
+
+/* items-date */
+.items_date {
+  display: flex;
+  align-items: center;
+}
+.items_date input {
+  transform: scale(1.5);
+  accent-color: #a1eaa1;
+}
+.items_date input:hover {
+  accent-color: #2cf52c;
+}
+.items_date p {
+  padding-left: 1rem;
+}
+
+/* items-todo */
+.items_todo {
+  font-size: x-large;
+}
+.items_todo_completed {
+  color: #99e69f;
+  text-decoration: line-through;
+}
+
+/* items-button */
+.items_button_container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.items_button_container p {
+  font-size: x-large;
+  margin: 0 1rem;
+}
+
+/* items-none */
+.items_none {
+  padding: 1rem;
+}
+.items_none p {
+  text-align: center;
+  font-weight: bold;
+}
+
+/* pagenation */
+.pagenation_container {
+  margin-top: 1rem;
+}
+.pagenation_container ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+.pagenation_container button {
+  height: 2.5rem;
+  padding: 0 1rem;
+  transition-property: color;
+  transition-duration: 150ms;
+}
+.pagenation_container button:hover {
+  background: #f5c8cf;
+}
+.pagenation_container button:focus {
+  outline: 0.2rem solid #f5c8cf;
+}
+.pagenation_container svg {
+  width: 1vw;
+  height: 2vh;
+}
+
+/* table description */
+.table_description {
+  padding: 1rem;
+}
+.table_description p {
+  text-align: center;
+  color: #8b8b8b;
+}

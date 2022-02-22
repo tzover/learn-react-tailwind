@@ -14,8 +14,8 @@ const InputTodo = memo((props: Props) => {
   const { registrationTodo } = useTodos()
   return (
     <input
-      className={styles.input}
       type='text'
+      className={styles.input_style}
       placeholder='Have you forgotten something about todos?'
       onChange={onChangeInputTodo}
       value={inputTodo}

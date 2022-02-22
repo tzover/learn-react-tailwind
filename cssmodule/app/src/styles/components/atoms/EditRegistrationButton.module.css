@@ -1,0 +1,13 @@
+.button_style {
+  padding: 0 1rem;
+  margin-left: 1rem;
+  font-size: x-large;
+  border-radius: 0.5rem;
+  background: #99e69f;
+  cursor: pointer;
+}
+
+.button_style:hover {
+  background: #4ae657;
+  font-weight: bold;
+}

@@ -21,136 +21,9 @@ import EditRegistrationButton from '../atoms/EditRegistrationButton'
 import useTodos from '../../hooks/useTodos'
 import usePageNation from '../../hooks/usePageNation'
 import { pageState } from '../../contexts/TodosPageAtom'
-import styled from 'styled-components'
+import styles from '../../styles/components/modules/Todos.module.css'
 
 // interface
-
-// styled
-const InputDescriptionContainer = styled.div`
-  padding-left: 1rem;
-  padding-bottom: 1rem;
-`
-const InputContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
-const ResetButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  p {
-    font-size: xx-large;
-  }
-  span {
-    margin-left: 2rem;
-    font-size: x-large;
-    text-decoration: underline;
-  }
-`
-const TodosContainer = styled.div`
-  padding: 0 2rem 2rem 2rem;
-  .todos-table {
-    width: 100%;
-  }
-  .todos-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 0;
-    p {
-      font-size: xx-large;
-    }
-  }
-  .todos-body {
-    border-top: 0.2rem solid #eee;
-    border-bottom: 0.2rem solid #eee;
-
-    .body-items-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1rem;
-      margin: 1rem 0;
-      .items-date {
-        display: flex;
-        align-items: center;
-        input {
-          transform: scale(1.5);
-          accent-color: #a1eaa1;
-          &:hover {
-            accent-color: #2cf52c;
-          }
-        }
-        p {
-          padding-left: 1rem;
-        }
-      }
-      .items-todo {
-        p {
-          font-size: x-large;
-        }
-      }
-      .items-edit-and-delete {
-        display: flex;
-        justify-content: end;
-        align-items: center;
-        p {
-          font-size: x-large;
-          margin: 0 1rem;
-        }
-      }
-    }
-    .items-none {
-      padding: 1rem;
-      p {
-        text-align: center;
-        font-weight: bold;
-      }
-    }
-  }
-`
-const TodosBodyContainer = styled.div`
-  background: ${(props) => props.color};
-`
-const TodosText = styled.p`
-  color: ${(props) => props.color};
-  text-decoration: ${(props) => props.className};
-`
-
-const PagenationContainer = styled.nav`
-  margin-top: 1rem;
-  ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-  }
-  button {
-    height: 2.5rem;
-    padding: 0 1rem;
-    transition-property: color;
-    transition-duration: 150ms;
-    &:hover {
-      background: #f5c8cf;
-    }
-    &:focus {
-      outline: 0.2rem solid #f5c8cf;
-    }
-    svg {
-      width: 1vw;
-      height: 2vh;
-    }
-  }
-`
-const TableDescription = styled.div`
-  padding: 1rem;
-  p {
-    text-align: center;
-    color: #8b8b8b;
-  }
-`
 
 // component
 const Todos = () => {
@@ -197,12 +70,12 @@ const Todos = () => {
   return (
     <>
       {/* Input description */}
-      <InputDescriptionContainer>
+      <div className={styles.input_description_container}>
         <InputDescription isEdit={isEditFlug} description={inputDescription} />
-      </InputDescriptionContainer>
+      </div>
 
       {/* New todos -> input area */}
-      <InputContainer>
+      <div className={styles.input_container}>
         {isEditFlug ? (
           <>
             <InputEditTodo
@@ -220,25 +93,27 @@ const Todos = () => {
             <RegistrationButton inputTodo={inputTodo} />
           </>
         )}
-      </InputContainer>
+      </div>
 
       {/* All reset button */}
-      <ResetButtonContainer>
-        <p>
+      <div className={styles.reset_button_container}>
+        <p className={styles.history_msg}>
           You have {info.total} todos / {info.completed} Completed!
-          <span>({((info.completed / info.total) * 100).toFixed(1)} % )</span>
+          <span className={styles.history_msg_span}>
+            ({((info.completed / info.total) * 100).toFixed(1)} % )
+          </span>
         </p>
         <ResetButton />
-      </ResetButtonContainer>
+      </div>
       {/* Delete check modal */}
       <DeleteModal isDeleteModalOpen={isDeleteModalOpen} />
 
       {/* Todos */}
-      <TodosContainer>
-        <div className='todos-table'>
+      <div className={styles.todos_container}>
+        <div className={styles.todos_table}>
           {/* table header */}
           <div>
-            <div className='todos-header'>
+            <div className={styles.todos_header}>
               {todosHeader.map((item) => (
                 <p key={item}>{item}</p>
               ))}
@@ -246,7 +121,7 @@ const Todos = () => {
           </div>
 
           {/* Table body */}
-          <div className='todos-body'>
+          <div className={styles.todos_body}>
             {todos.length ? (
               todos
                 .slice(
@@ -254,13 +129,14 @@ const Todos = () => {
                   sliceIdx * showNum + showNum,
                 )
                 .map((item, idx) => (
-                  <TodosBodyContainer
+                  <div
                     key={item.id}
-                    className={`body-items-container`}
-                    color={`${idx % 2 !== 0 && '#bcd1f5'}`}
+                    className={`${styles.todos_body_container} ${
+                      idx % 2 !== 0 && styles.todos_body_container_color
+                    }`}
                   >
                     {/* Date */}
-                    <div className='items-date'>
+                    <div className={styles.items_date}>
                       <input
                         type='checkbox'
                         onChange={(e) =>
@@ -271,30 +147,34 @@ const Todos = () => {
                       <p>{item.date}</p>
                     </div>
                     {/* Todo */}
-                    <div className='items-todo'>
-                      <TodosText
-                        className={`${item.complete && 'line-through'}`}
-                        color={`${item.complete && '#99e69f'}`}
+                    <div>
+                      <p
+                        className={`${styles.items_todo} ${
+                          item.complete && styles.items_todo_completed
+                        }`}
                       >
                         {item.todo}
-                      </TodosText>
+                      </p>
                     </div>
                     {/* Edit and Delete */}
-                    <div className='items-edit-and-delete'>
+                    <div className={styles.items_button_container}>
                       <EditFlugButton idx={idx} />
                       <p>/</p>
                       <DeleteButton idx={idx} />
                     </div>
-                  </TodosBodyContainer>
+                  </div>
                 ))
             ) : (
-              <div className='items-none'>
+              <div className={styles.items_none}>
                 <p>No todos</p>
               </div>
             )}
           </div>
           {/* Pagenation */}
-          <PagenationContainer aria-label='Page navigation'>
+          <div
+            className={styles.pagenation_container}
+            aria-label='Page navigation'
+          >
             <ul>
               <li>
                 <button onClick={() => prevPage(pageIdx)}>
@@ -330,13 +210,13 @@ const Todos = () => {
                 </button>
               </li>
             </ul>
-          </PagenationContainer>
+          </div>
           {/* Table description */}
-          <TableDescription>
+          <div className={styles.table_description}>
             <p>{`All good things must come to an end`}</p>
-          </TableDescription>
+          </div>
         </div>
-      </TodosContainer>
+      </div>
     </>
   )
 }

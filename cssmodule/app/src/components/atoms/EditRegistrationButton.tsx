@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { useRecoilValue } from 'recoil'
-import styled from 'styled-components'
+import styles from '../../styles/components/atoms/EditRegistrationButton.module.css'
 import { editTodosState } from '../../contexts/TodosAtom'
 import useTodos from '../../hooks/useTodos'
 
@@ -8,20 +8,6 @@ import useTodos from '../../hooks/useTodos'
 interface Props {
   inputTodo: string
 }
-
-// styled
-const EditButtonStyle = styled.button`
-  padding: 0 1rem;
-  margin-left: 1rem;
-  font-size: x-large;
-  border-radius: 0.5rem;
-  background: #99e69f;
-  cursor: pointer;
-  &:hover {
-    background: #4ae657;
-    font-weight: bold;
-  }
-`
 
 // component
 const EditRegistrationButton = memo((props: Props) => {
@@ -31,12 +17,13 @@ const EditRegistrationButton = memo((props: Props) => {
 
   const { editRegistrationTodo } = useTodos()
   return (
-    <EditButtonStyle
+    <button
       type='button'
+      className={styles.button_style}
       onClick={() => editRegistrationTodo(editTodo, inputTodo)}
     >
       Go
-    </EditButtonStyle>
+    </button>
   )
 })
 

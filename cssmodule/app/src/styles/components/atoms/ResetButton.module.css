@@ -1,0 +1,14 @@
+.button_style {
+  padding: 1rem;
+  border-radius: 0.2rem;
+  background: #eee;
+}
+
+.button_style_color {
+  background: yellow;
+}
+
+.button_style_color:hover {
+  font-weight: bold;
+  background: #f1f119;
+}

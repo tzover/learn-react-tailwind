@@ -5,7 +5,7 @@ import Layout from '../components/templates/Layout'
 // import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  const pageTitle = 'Styled-Components CSS'
+  const pageTitle = 'CSS-modules'
   const appName = 'Todos'
   return (
     <Layout pageTitle={pageTitle} appName={appName}>

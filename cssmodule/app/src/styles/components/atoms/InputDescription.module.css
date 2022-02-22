@@ -1,0 +1,13 @@
+/* // styled
+const Description = styled.p<{ color: string }>`
+  font-size: large;
+  color: ${({ color }) => color};
+` */
+.input_msg {
+  font-size: large;
+  color: #8fa9da;
+}
+
+.input_msg_color_edit {
+  color: #4ae657;
+}

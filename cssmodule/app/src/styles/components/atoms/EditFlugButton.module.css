@@ -1,0 +1,9 @@
+.button_style {
+  padding: 0.3rem;
+  border-radius: 1.5rem;
+}
+
+.button_style:hover {
+  background: #4ae657;
+  transform: scale(1.25);
+}
