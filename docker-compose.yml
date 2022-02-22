@@ -45,23 +45,23 @@ services:
     build:
       context: ./cssmodule
       dockerfile: Dockerfile
-    volumes:
-      - ./cssmodule/app:/home/node/app
-      - module-volume:/home/node/app/node_modules
+    # volumes:
+    # - ./cssmodule/app:/home/node/app
+    # - module-volume:/home/node/app/node_modules
     ports:
       - ${MODULE_PORT}:3000
     tty: true
     restart: always
-volumes:
-  # tailwind-volume:
-  #   name: ${CONTAINER_BASENAME}-tailwind-volume
-  #   driver: local
-  # styled-volume:
-  #   name: ${CONTAINER_BASENAME}-styled-volume
-  #   driver: local
-  # chakra-volume:
-  #   name: ${CONTAINER_BASENAME}-chakra-volume
-  #   driver: local
-  module-volume:
-    name: ${CONTAINER_BASENAME}-module-volume
-    driver: local
+# volumes:
+# tailwind-volume:
+#   name: ${CONTAINER_BASENAME}-tailwind-volume
+#   driver: local
+# styled-volume:
+#   name: ${CONTAINER_BASENAME}-styled-volume
+#   driver: local
+# chakra-volume:
+#   name: ${CONTAINER_BASENAME}-chakra-volume
+#   driver: local
+# module-volume:
+#   name: ${CONTAINER_BASENAME}-module-volume
+#   driver: local
